@@ -1,0 +1,33 @@
+# FAIR COMPARISON — each decoder on its natural channel model
+#
+# F256 pruning  → burst / q-ary symmetric channel (whole GF256 symbols flip)
+# GF16 pruning  → burst / q-ary symmetric channel (whole GF16 symbols flip)
+# GF4 pruning   → burst / q-ary symmetric channel (whole GF4 symbols flip)
+# F2 pruning    → binary symmetric channel (BSC)   (independent bit flips)
+# PEG-BP (SPA)  → binary symmetric channel (BSC)   (independent bit flips)
+#
+# Equivalent information: 2000 bits
+#   GF256: n=250 × 8-bit symbols
+#   GF16:  n=500 × 4-bit symbols
+#   GF4:   n=1000 × 2-bit symbols
+#   F2/PEG: n=2000 × 1-bit symbols
+
+decoder,channel,err_pct,n,R,ok,time_ms,matrix
+F256-prune,burst,1%,250,0.88,1,0.036,H_GF256_n250_1pct.txt
+F256-prune,burst,2%,250,0.80,1,0.037,H_GF256_n250_2pct.txt
+F256-prune,burst,3%,250,0.70,1,0.093,H_GF256_n250_3pct_R070.txt
+F256-prune,burst,4%,250,0.65,1,0.091,H_GF256_n250_4pct_R065.txt
+GF16-prune,burst,1%,500,0.88,1,0.103,H_GF16_n500_1pct.txt
+GF16-prune,burst,2%,500,0.80,1,0.154,H_GF16_n500_2pct.txt
+GF16-prune,burst,3%,500,0.70,1,0.724,H_GF16_n500_3pct.txt
+GF16-prune,burst,4%,500,0.65,1,0.617,H_GF16_n500_4pct.txt
+GF4-prune,burst,1%,1000,0.80,1,0.920,H_GF4_n1000_R0.80.txt
+GF4-prune,burst,2%,1000,0.70,1,3.954,H_GF4_n1000_R0.70.txt
+GF4-prune,burst,3%,1000,0.60,1,7.994,H_GF4_n1000_R0.60.txt
+GF4-prune,burst,4%,1000,0.55,1,11.437,H_GF4_n1000_R0.55.txt
+F2-prune,BSC,1%,2000,0.65,1,16.882,H_bin_BER1_Bprime_2000.txt
+F2-prune,BSC,2%,2000,0.62,1,7.801,H_bin_BER2_R062_2000.txt
+PEG-SPA,BSC,1%,2000,0.80,1,16.805,ldpc_peg_peg_R080.txt
+PEG-SPA,BSC,2%,2000,0.75,1,12.005,ldpc_peg_peg_R075.txt
+PEG-SPA,BSC,3%,2000,0.60,1,7.118,ldpc_peg_peg_R060.txt
+PEG-SPA,BSC,4%,2000,0.60,1,8.147,ldpc_peg_peg_R060.txt

@@ -1,0 +1,21 @@
+matrix,rows,cols,c,field,err_pct,thr_v,prune_ms,prune_ok,spa_ok,spa_ms,spa_match,ms_ok,ms_ms,ms_match,ms_iters
+[alg2_prune] cols=2000, sure (inter>4)=115, candidates=1885, rows=240, target=190
+[alg2_prune] selected 190 columns for a 240 x 190 system
+[alg2_prune] Success on attempt 1: kept=190, weight=20
+H_GF256_BER1_2000.txt,240,2000,6,1,1.0000,4,3.655,1,0,112.404,1,0,21.897,1,50
+[alg2_prune] cols=2000, sure (inter>4)=156, candidates=1844, rows=400, target=350
+[alg2_prune] selected 350 columns for a 400 x 350 system
+[alg2_prune] Success on attempt 1: kept=350, weight=40
+H_GF256_BER2_2000.txt,400,2000,6,1,2.0000,4,7.592,1,0,75.867,0,0,17.105,0,50
+[alg2_prune] cols=2000, sure (inter>4)=255, candidates=1745, rows=500, target=450
+[alg2_prune] selected 450 columns for a 500 x 450 system
+[alg2_prune] Success on attempt 1: kept=450, weight=60
+H_GF256_BER3_2000.txt,500,2000,6,1,3.0000,4,15.632,1,0,67.443,0,0,13.768,0,50
+[alg2_prune] cols=2000, sure (inter>4)=375, candidates=1625, rows=600, target=550
+[alg2_prune] selected 550 columns for a 600 x 550 system
+[alg2_prune] Success on attempt 1: kept=550, weight=80
+H_GF256_BER4_2000.txt,600,2000,6,1,4.0000,4,28.155,1,0,59.619,1,0,11.591,0,50
+H_sparse_bin_240x2000.txt,240,2000,3,0,1.0000,4,0.000,0,0,26.206,0,0,5.555,0,50
+H_sparse_bin_400x2000.txt,400,2000,3,0,2.0000,4,0.000,0,0,20.193,0,0,6.053,0,50
+H_sparse_bin_500x2000.txt,500,2000,3,0,3.0000,4,0.000,0,0,19.661,0,0,5.791,0,50
+H_sparse_bin_600x2000.txt,600,2000,3,0,4.0000,4,0.000,0,0,15.933,0,0,5.297,0,50

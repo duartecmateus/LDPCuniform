@@ -1,0 +1,5 @@
+matrix,scenario,m,n,c,errors,BP_ms,BP_ok,Prune_ms,Prune_ok,Augment_ms,Augment_ok
+H_bin_BER1_Bprime_2000.txt,"1% B' c=10 R=0.65",700,2000,10,20,14.402,YES,2.397,YES,0.043,NO
+H_bin_BER2_R062_2000.txt,"2% c=6 R=0.62",760,2000,6,40,6.304,YES,1.989,YES,0.056,NO
+H_bin_BER3_augment_2000.txt,"3% c=6 R=0.40",1200,2000,6,60,14.603,YES,7.784,YES,31.568,YES
+H_bin_BER4_augment_2000.txt,"4% c=6 R=0.30",1400,2000,6,80,11.651,YES,18.686,YES,30.925,YES

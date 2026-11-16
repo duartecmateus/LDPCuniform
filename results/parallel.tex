@@ -1,0 +1,42 @@
+\subsection{Parallel benchmark}
+
+For the parallel benchmark, we compare the sequential and GPU-based implementations of Algorithm~2 on families of uniformly generated parity-check matrices.  The tested matrices have dimensions $m \times n$ with $m \approx 3n/4$, and the number of nonzero entries per column grows moderately with the size of the matrix.  For each matrix, the decoder is tested on error rates ranging from $0.25\%$ to $4\%$.  In all reported runs, the decoder succeeded and the solution was found in a single attempt, so the measured runtime reflects primarily the cost of constructing and solving the associated overdetermined linear system over $GF(2^8)$.
+
+The parallel implementation follows the matrix formulation of Algorithm~2.  Given a parity-check matrix $H \in GF(2^8)^{m \times n}$ and a syndrome $s$, the decoder first identifies candidate columns whose supports have small intersection with the support of $s$.  In the GPU version, this filtering step is offloaded to Metal: one thread is assigned to each column, and it counts the number of rows that simultaneously belong to the syndrome support and to the support of the column.  Columns whose intersection count is below the prescribed threshold are retained as candidates for the additional constraints.  Afterward, the decoder constructs an overdetermined system
+\[
+    \widetilde{H} e = \widetilde{s},
+\]
+and solves it over $GF(2^8)$.  The matrix and right-hand side are uploaded once to GPU-resident buffers, the full pivot loop is executed by Metal kernels, and several pivot steps are grouped into each command buffer to reduce synchronization overhead.
+
+Figure~\ref{fig:alg2-runtime-size} shows the decoding time as a function of the matrix size for an error rate of $2\%$.  The advantage of the parallel implementation is already visible at the smallest tested size and becomes increasingly pronounced as the number of columns grows.  For example, for a matrix of size $3000 \times 4000$, the runtime decreases from about $31.95$~s in the sequential version to about $1.58$~s in the parallel version.  For the largest tested instance, $4500 \times 6000$, the sequential implementation requires more than $108$~s, whereas the parallel implementation takes about $3.55$~s.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{alg2_runtime_vs_size.pdf}
+    \caption{Decoding time as a function of the number of columns for the sequential and parallel implementations of Algorithm~2, for an error rate of $2\%$.  The parallel implementation scales significantly better as the matrix size increases.}
+    \label{fig:alg2-runtime-size}
+\end{figure}
+
+To make the gain more explicit, Figure~\ref{fig:alg2-speedup-size} reports the speedup defined by
+\[
+    \mathrm{speedup} = \frac{T_{\mathrm{seq}}}{T_{\mathrm{par}}}.
+\]
+The speedup increases steadily with the matrix size, from about $5.7\times$ for the $1125 \times 1500$ matrix to more than $30\times$ for the $4500 \times 6000$ instance.  This shows that the GPU implementation is not merely reducing a fixed overhead, but is genuinely improving the scaling of the dominant computation, namely the overdetermined finite-field elimination.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{alg2_speedup_vs_size.pdf}
+    \caption{Speedup of the parallel implementation over the sequential implementation of Algorithm~2, measured as $T_{\mathrm{seq}}/T_{\mathrm{par}}$, for an error rate of $2\%$.  The speedup increases with the matrix size and exceeds $30\times$ for the largest tested instance.}
+    \label{fig:alg2-speedup-size}
+\end{figure}
+
+Another important observation is that, for fixed matrix dimensions, the decoding time is almost insensitive to the error rate over the tested range.  This is illustrated in Figure~\ref{fig:alg2-runtime-error}, which reports the runtime of the parallel implementation for representative matrix sizes.  The curves are nearly flat as the error rate varies from $0.25\%$ to $4\%$.  This indicates that the dominant cost is determined mainly by the size of the constructed system, not by the precise error weight.  In other words, once the candidate set has been formed and the overdetermined system has been built, the runtime is governed primarily by the structured Gaussian elimination over $GF(2^8)$.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{alg2_runtime_vs_error_parallel.pdf}
+    \caption{Parallel decoding time as a function of the error rate for representative matrix sizes.  For fixed matrix dimensions, the runtime is nearly constant over the tested range of error rates, showing that the dominant cost lies in the finite-field elimination rather than in the exact number of channel errors.}
+    \label{fig:alg2-runtime-error}
+\end{figure}
+
+These results provide strong evidence for the efficiency of the parallel implementation.  First, the parallel decoder consistently outperforms the sequential one across all tested instances.  Second, the speedup grows with the matrix size, showing that the GPU implementation becomes increasingly advantageous in the practically relevant large-scale regime.  Third, the decoder remains stable across the tested error rates: every run succeeds, and in every case the solution is obtained in a single attempt.  Altogether, the benchmark demonstrates that the proposed Metal implementation is an effective practical realization of the parallel structure of Algorithm~2.

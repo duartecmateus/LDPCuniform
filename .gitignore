@@ -1,0 +1,22 @@
+# build artefacts
+build/
+*.o
+*.a
+*.dylib
+*.so
+
+# binaries
+test_lu
+test_alg4prefilt
+compare
+a.out
+
+# editors / macOS
+.DS_Store
+.vscode/
+*.swp
+
+# benchmark output (keep the curated CSVs under results/)
+*.csv.tmp
+bench_out*.csv
+out.csv

@@ -1,0 +1,30 @@
+DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$DIR"
+
+echo "===================================================================="
+echo "alg4LDprefilt: c=3 sweep with binary-to-GF(4) errors"
+echo "===================================================================="
+
+echo ""
+echo "=== Rate 0.80 (200x1000, c=3) ==="
+echo "BER: 0.5 1.0 1.5 2.0"
+echo ""
+./test_alg4prefilt "$MATDIR"/H_GF4_n1000_c3_R080.txt 4 "0.5,1.0,1.5,2.0" 50 2 | grep -E "BER=|Summary|Passed|Avg"
+
+echo ""
+echo "=== Rate 0.70 (300x1000, c=3) ==="
+echo "BER: 0.5 1.0 1.5 2.0 2.5"
+echo ""
+./test_alg4prefilt "$MATDIR"/H_GF4_n1000_c3_R070.txt 4 "0.5,1.0,1.5,2.0,2.5" 50 2 | grep -E "BER=|Summary|Passed|Avg"
+
+echo ""
+echo "=== Rate 0.60 (400x1000, c=3) ==="
+echo "BER: 0.5 1.0 1.5 2.0 2.5 3.0"
+echo ""
+./test_alg4prefilt "$MATDIR"/H_GF4_n1000_c3_R060.txt 4 "0.5,1.0,1.5,2.0,2.5,3.0" 50 2 | grep -E "BER=|Summary|Passed|Avg"
+
+echo ""
+echo "=== Rate 0.55 (450x1000, c=3) ==="
+echo "BER: 0.5 1.0 1.5 2.0 2.5 3.0"
+echo ""
+./test_alg4prefilt "$MATDIR"/H_GF4_n1000_c3_R055.txt 4 "0.5,1.0,1.5,2.0,2.5,3.0" 50 2 | grep -E "BER=|Summary|Passed|Avg"
